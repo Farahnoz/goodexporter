@@ -22,8 +22,8 @@ interface Car {
 export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [cars, setCars] = useState<Car[]>([]); // ← FIXED TYPE
-  const [formData, setFormData] = useState<Car>({
+  const [cars, setCars] = useState<Car[]>([]);
+  const [formData, setFormData] = useState<Omit<Car, 'id' | 'created_at'>>({
     stock_id: '',
     make: '',
     model: '',
@@ -74,7 +74,19 @@ export default function AdminDashboard() {
   };
 
   const handleEdit = (car: Car) => {
-    setFormData(car);
+    setFormData({
+      stock_id: car.stock_id,
+      make: car.make,
+      model: car.model,
+      year: car.year,
+      price: car.price,
+      mileage: car.mileage,
+      fuel: car.fuel,
+      transmission: car.transmission,
+      color: car.color,
+      main_image: car.main_image,
+      featured: car.featured,
+    });
     setEditId(car.id!);
   };
 
@@ -106,6 +118,19 @@ export default function AdminDashboard() {
     );
   }
 
+  const fields = [
+    { key: 'stock_id', label: 'Stock ID' },
+    { key: 'make', label: 'Make' },
+    { key: 'model', label: 'Model' },
+    { key: 'year', label: 'Year', type: 'number' },
+    { key: 'price', label: 'Price', type: 'number' },
+    { key: 'mileage', label: 'Mileage', type: 'number' },
+    { key: 'fuel', label: 'Fuel' },
+    { key: 'transmission', label: 'Transmission' },
+    { key: 'color', label: 'Color' },
+    { key: 'main_image', label: 'Main Image URL' },
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white p-8">
       <div className="max-w-7xl mx-auto">
@@ -118,33 +143,29 @@ export default function AdminDashboard() {
 
         <form onSubmit={handleSubmit} className="bg-gray-900 p-8 rounded-xl border border-neon/20 mb-10">
           <div className="grid grid-cols-2 gap-6 mb-6">
-            {Object.keys(formData).map((key) => {
-              if (key === 'featured') {
-                return (
-                  <label key={key} className="flex items-center col-span-2">
-                    <input
-                      type="checkbox"
-                      checked={formData[key]}
-                      onChange={(e) => setFormData({ ...formData, [key]: e.target.checked })}
-                      className="w-6 h-6 mr-3"
-                    />
-                    <span className="text-xl">Featured Car</span>
-                  </label>
-                );
-              }
-              if (key === 'id' || key === 'created_at') return null;
-              return (
-                <input
-                  key={key}
-                  type={key.includes('year') || key.includes('price') || key.includes('mileage') ? 'number' : 'text'}
-                  placeholder={key.replace(/_/g, ' ').toUpperCase()}
-                  value={formData[key as keyof Car]}
-                  onChange={(e) => setFormData({ ...formData, [key]: key.includes('year') || key.includes('price') || key.includes('mileage') ? Number(e.target.value) : e.target.value })}
-                  className="p-4 bg-black border border-neon/50 rounded text-lg"
-                  required
-                />
-              );
-            })}
+            {fields.map(({ key, label, type }) => (
+              <input
+                key={key}
+                type={type || 'text'}
+                placeholder={label}
+                value={formData[key as keyof typeof formData] as string | number}
+                onChange={(e) => {
+                  const value = type === 'number' ? Number(e.target.value) || 0 : e.target.value;
+                  setFormData({ ...formData, [key]: value });
+                }}
+                className="p-4 bg-black border border-neon/50 rounded text-lg"
+                required
+              />
+            ))}
+            <label className="flex items-center col-span-2">
+              <input
+                type="checkbox"
+                checked={formData.featured}
+                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                className="w-6 h-6 mr-4"
+              />
+              <span className="text-xl">Featured Car</span>
+            </label>
           </div>
           <button type="submit" className="bg-neon text-black px-10 py-4 rounded-full font-bold text-xl hover:bg-white transition">
             {editId ? 'UPDATE CAR' : 'ADD CAR'}
@@ -155,7 +176,7 @@ export default function AdminDashboard() {
           {cars.map((car) => (
             <div key={car.id} className="bg-gray-900 p-6 rounded-xl border border-neon/20">
               {car.main_image && <img src={car.main_image} alt="" className="w-full h-48 object-cover rounded mb-4" />}
-              <h3 className="text-2xl font-bold text-neon">{car.year} {car.make} " {car.model}</h3>
+              <h3 className="text-2xl font-bold text-neon">{car.year} {car.make} {car.model}</h3>
               <p className="text-3xl text-green-400">${car.price.toLocaleString()}</p>
               <p className="text-gray-400">Stock: {car.stock_id}</p>
               <div className="flex gap-3 mt-6">
