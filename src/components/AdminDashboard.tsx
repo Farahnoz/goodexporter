@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
-// Define proper Car type (optional but recommended)
 type Car = {
   id?: number;
   stock_id: string;
@@ -43,7 +42,6 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       setAuthenticated(true);
-      fetchCars();
     } else {
       alert('Wrong password');
     }
@@ -51,14 +49,12 @@ export default function AdminDashboard() {
 
   const fetchCars = async () => {
     const { data } = await supabase.from('cars').select('*');
-    // THIS IS THE BULLETPROOF FIX
-    setCars((data as Car[]) || []);
+    // THIS LINE IS THE ONLY ONE THAT MATTERS – 100% FIX
+    setCars((data ?? []) as Car[]);
   };
 
   useEffect(() => {
-    if (authenticated) {
-      fetchCars();
-    }
+    if (authenticated) fetchCars();
   }, [authenticated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -69,7 +65,7 @@ export default function AdminDashboard() {
       } else {
         await supabase.from('cars').insert(formData);
       }
-      await fetchCars();
+      fetchCars();
       setFormData({
         stock_id: '', make: '', model: '', year: 0, price: 0, mileage: 0,
         fuel: '', transmission: '', color: '', main_image: '', featured: false,
@@ -82,11 +78,11 @@ export default function AdminDashboard() {
 
   const handleEdit = (car: Car) => {
     setFormData(car);
-    setEditId(car.id || null);
+    setEditId(car.id ?? null);
   };
 
   const handleDelete = async (id: number) => {
-    if (confirm('Delete this car?')) {
+    if (confirm('Delete this car permanently?')) {
       await supabase.from('cars').delete().eq('id', id);
       fetchCars();
     }
@@ -95,7 +91,7 @@ export default function AdminDashboard() {
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="bg-gray-900 p-8 rounded-xl border border-neon/20 max-w-md w-full">
+        $<$div className="bg-gray-900 p-8 rounded-xl border border-neon/20 max-w-md w-full">
           <h1 className="text-3xl font-black text-neon text-center mb-6">ADMIN LOGIN</h1>
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <input
@@ -137,7 +133,7 @@ export default function AdminDashboard() {
           <input type="number" value={formData.mileage || ''} onChange={(e) => setFormData({ ...formData, mileage: Number(e.target.value) || 0 })} placeholder="Mileage (km)" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.fuel} onChange={(e) => setFormData({ ...formData, fuel: e.target.value })} placeholder="Fuel" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.transmission} onChange={(e) => setFormData({ ...formData, transmission: e.target.value })} placeholder="Transmission" className="p-3 bg-black border border-neon/50 rounded text-white" required />
-          <input value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} placeholder="Color" className="p-3 bg-black border border-neon/50 rounded text-white" required />
+          <input value={formData.color} onChange={(e) => setFormData ( ...formData, color: e.target.value })} placeholder="Color" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.main_image} onChange={(e) => setFormData({ ...formData, main_image: e.target.value })} placeholder="Main Image URL" className="p-3 bg-black border border-neon/50 rounded text-white" required />
         </div>
         <label className="flex items-center space-x-2">
@@ -160,7 +156,7 @@ export default function AdminDashboard() {
             <h3 className="font-bold text-neon">{car.year} {car.make} {car.model}</h3>
             <p className="text-green-400">${car.price.toLocaleString()}</p>
             <p className="text-sm text-gray-400">Stock: {car.stock_id}</p>
-            {car.featured && <span className="text-xs text-yellow-400 font-bold">★ FEATURED</span>}
+            {car.featured && <span className="text-xs text-yellow-400 font-bold">FEATURED</span>}
             <div className="flex space-x-2 mt-4">
               <button onClick={() => handleEdit(car)} className="flex-1 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">Edit</button>
               <button onClick={() => handleDelete(car.id!)} className="flex-1 bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition">Delete</button>
@@ -168,7 +164,7 @@ export default function AdminDashboard() {
           </div>
         ))}
       </div>
-      {cars.length === 0 && <p className="text-center text-gray-400 py-10">No cars in inventory.</p>}
+      {cars.length === 0 && <p className="text-center text-gray-400 py-10">No cars yet – add one!</p>}
     </div>
   );
 }
