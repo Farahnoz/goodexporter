@@ -1,27 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
-
-type Car = {
-  id?: number;
-  stock_id: string;
-  make: string;
-  model: string;
-  year: number;
-  price: number;
-  mileage: number;
-  fuel: string;
-  transmission: string;
-  color: string;
-  main_image: string;
-  featured: boolean;
-};
+import { supabase, Database } from '@/lib/supabase';
+type Car = Database['public']['Tables']['cars']['Row'];
 
 export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [cars, setCars] = useState<Car[]>([]);
-  const [formData, setFormData] = useState<Car>({
+  const [formData, setFormData] = useState<Omit<Car, 'id' | 'created_at'>>({
     stock_id: '',
     make: '',
     model: '',
@@ -48,9 +34,12 @@ export default function AdminDashboard() {
   };
 
   const fetchCars = async () => {
-    const { data } = await supabase.from('cars').select('*');
-    // THIS LINE IS THE ONLY ONE THAT MATTERS – 100% FIX
-    setCars((data ?? []) as Car[]);
+    const { data } = await supabase
+      .from('cars')
+      .select('*')
+      .returns<Car[]>();
+    
+    setCars(data ?? []);
   };
 
   useEffect(() => {
