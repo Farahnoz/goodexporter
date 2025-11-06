@@ -1,13 +1,28 @@
-///so pissing off
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+
+// Define proper Car type (optional but recommended)
+type Car = {
+  id?: number;
+  stock_id: string;
+  make: string;
+  model: string;
+  year: number;
+  price: number;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  color: string;
+  main_image: string;
+  featured: boolean;
+};
 
 export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [cars, setCars] = useState<any[]>([]);
-  const [formData, setFormData] = useState({
+  const [cars, setCars] = useState<Car[]>([]);
+  const [formData, setFormData] = useState<Car>({
     stock_id: '',
     make: '',
     model: '',
@@ -20,9 +35,9 @@ export default function AdminDashboard() {
     main_image: '',
     featured: false,
   });
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<number | null>(null);
 
-  const ADMIN_PASSWORD = 'goodexporter123'; // Change this to your password
+  const ADMIN_PASSWORD = 'goodexporter123';
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,31 +51,45 @@ export default function AdminDashboard() {
 
   const fetchCars = async () => {
     const { data } = await supabase.from('cars').select('*');
-    setCars(data || []);
+    // THIS IS THE BULLETPROOF FIX
+    setCars((data as Car[]) || []);
   };
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchCars();
+    }
+  }, [authenticated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editId) {
-      await supabase.from('cars').update(formData).eq('id', editId);
-    } else {
-      await supabase.from('cars').insert(formData);
+    try {
+      if (editId) {
+        await supabase.from('cars').update(formData).eq('id', editId);
+      } else {
+        await supabase.from('cars').insert(formData);
+      }
+      await fetchCars();
+      setFormData({
+        stock_id: '', make: '', model: '', year: 0, price: 0, mileage: 0,
+        fuel: '', transmission: '', color: '', main_image: '', featured: false,
+      });
+      setEditId(null);
+    } catch (err) {
+      alert('Error saving car');
     }
-    fetchCars();
-    setFormData({
-      stock_id: '', make: '', model: '', year: 0, price: 0, mileage: 0, fuel: '', transmission: '', color: '', main_image: '', featured: false,
-    });
-    setEditId(null);
   };
 
-  const handleEdit = (car) => {
+  const handleEdit = (car: Car) => {
     setFormData(car);
-    setEditId(car.id);
+    setEditId(car.id || null);
   };
 
-  const handleDelete = async (id) => {
-    await supabase.from('cars').delete().eq('id', id);
-    fetchCars();
+  const handleDelete = async (id: number) => {
+    if (confirm('Delete this car?')) {
+      await supabase.from('cars').delete().eq('id', id);
+      fetchCars();
+    }
   };
 
   if (!authenticated) {
@@ -103,9 +132,9 @@ export default function AdminDashboard() {
           <input value={formData.stock_id} onChange={(e) => setFormData({ ...formData, stock_id: e.target.value })} placeholder="Stock ID" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.make} onChange={(e) => setFormData({ ...formData, make: e.target.value })} placeholder="Make" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.model} onChange={(e) => setFormData({ ...formData, model: e.target.value })} placeholder="Model" className="p-3 bg-black border border-neon/50 rounded text-white" required />
-          <input type="number" value={formData.year} onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })} placeholder="Year" className="p-3 bg-black border border-neon/50 rounded text-white" required />
-          <input type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} placeholder="Price" className="p-3 bg-black border border-neon/50 rounded text-white" required />
-          <input type="number" value={formData.mileage} onChange={(e) => setFormData({ ...formData, mileage: Number(e.target.value) })} placeholder="Mileage (km)" className="p-3 bg-black border border-neon/50 rounded text-white" required />
+          <input type="number" value={formData.year || ''} onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) || 0 })} placeholder="Year" className="p-3 bg-black border border-neon/50 rounded text-white" required />
+          <input type="number" value={formData.price || ''} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) || 0 })} placeholder="Price" className="p-3 bg-black border border-neon/50 rounded text-white" required />
+          <input type="number" value={formData.mileage || ''} onChange={(e) => setFormData({ ...formData, mileage: Number(e.target.value) || 0 })} placeholder="Mileage (km)" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.fuel} onChange={(e) => setFormData({ ...formData, fuel: e.target.value })} placeholder="Fuel" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.transmission} onChange={(e) => setFormData({ ...formData, transmission: e.target.value })} placeholder="Transmission" className="p-3 bg-black border border-neon/50 rounded text-white" required />
           <input value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} placeholder="Color" className="p-3 bg-black border border-neon/50 rounded text-white" required />
@@ -131,9 +160,10 @@ export default function AdminDashboard() {
             <h3 className="font-bold text-neon">{car.year} {car.make} {car.model}</h3>
             <p className="text-green-400">${car.price.toLocaleString()}</p>
             <p className="text-sm text-gray-400">Stock: {car.stock_id}</p>
+            {car.featured && <span className="text-xs text-yellow-400 font-bold">★ FEATURED</span>}
             <div className="flex space-x-2 mt-4">
               <button onClick={() => handleEdit(car)} className="flex-1 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition">Edit</button>
-              <button onClick={() => handleDelete(car.id)} className="flex-1 bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition">Delete</button>
+              <button onClick={() => handleDelete(car.id!)} className="flex-1 bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition">Delete</button>
             </div>
           </div>
         ))}
