@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     stock_id: '',
     make: '',
