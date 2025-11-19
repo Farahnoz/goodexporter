@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="section">
+  <h2 style="color:#00ff41; text-align:center; margin-bottom:30px;">INVENTORY</h2>
+  
+  <!-- Search Bar -->
+  <div style="text-align:center; margin-bottom:50px;">
+    <input type="text" id="search" placeholder="Search by make or model..." 
+           style="padding:15px; width:500px; max-width:90%; background:#111; color:#fff; border:2px solid #00ff41; border-radius:5px; font-size:18px;">
+  </div>
+
+  <div class="car-grid" id="carContainer">
+    <% cars.forEach(car => { %>
+      <div class="car-card" data-make="<%= car.make.toLowerCase() %>" data-model="<%= car.model.toLowerCase() %>">
+        <img src="/images/cars/<%= car.image %>" 
+             onerror="this.src='https://via.placeholder.com/400x250/000/00ff41?text=<%= car.make %>+<%= car.model %>'"
+             alt="<%= car.make %> <%= car.model %>">
+        <div class="car-info">
+          <h3><%= car.year %> <%= car.make %> <%= car.model %></h3>
+          <p><%= car.mileage.toLocaleString() %> km • <%= car.transmission %> • <%= car.color %></p>
+          <p class="price">$<%= car.price.toLocaleString() %></p>
+          <a href="#" class="btn" style="margin-top:10px; font-size:14px; padding:10px 20px;">View Details</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<script>
+  // Live search
+  document.getElementById('search').addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.car-card').forEach(card => {
+      const make = card.dataset.make;
+      const model = card.dataset.model;
+      card.style.display = (make.includes(term) || model.includes(term)) ? 'block' : 'none';
+    });
+  });
+</script>
+
+<%- include('../partials/footer') %>

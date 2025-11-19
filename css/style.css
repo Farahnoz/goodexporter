@@ -1,0 +1,133 @@
+
+/* Good Exporter — Neon Green on Black (inspired by First Motors layout) */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  font-family: 'Arial', sans-serif; 
+  background:#000; 
+  color:#fff; 
+  line-height:1.6;
+}
+
+header {
+  background:#000;
+  padding:20px 5%;
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:1000;
+  border-bottom:2px solid #00ff41;
+}
+
+.header-inner {
+  max-width:1400px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo img { height:60px; }
+
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:40px;
+}
+
+nav a {
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:18px;
+  transition:0.3s;
+}
+
+nav a:hover { color:#00ff41; }
+
+.hero {
+  height:100vh;
+  background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url('../images/hero-car.jpg') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.hero-content h1 {
+  font-size:58px;
+  color:#00ff41;
+  margin-bottom:20px;
+  text-shadow:0 0 20px #00ff41;
+}
+
+.hero-content p {
+  font-size:24px;
+  max-width:800px;
+  margin:0 auto 40px;
+}
+
+.btn {
+  background:#00ff41;
+  color:#000;
+  padding:15px 40px;
+  border:none;
+  border-radius:5px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  transition:0.3s;
+}
+
+.btn:hover { background:#00d635; box-shadow:0 0 20px #00ff41; }
+
+.section { padding:100px 5%; max-width:1400px; margin:0 auto; }
+.section h2 { font-size:42px; color:#00ff41; text-align:center; margin-bottom:60px; }
+
+.car-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
+  gap:30px;
+}
+
+.car-card {
+  background:#111;
+  border:1px solid #00ff41;
+  border-radius:8px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.car-card:hover { transform:translateY(-10px); box-shadow:0 0 30px rgba(0,255,65,0.3); }
+
+.car-card img { width:100%; height:220px; object-fit:cover; }
+
+.car-info { padding:20px; }
+.car-info h3 { color:#00ff41; margin-bottom:10px; }
+.price { color:#00ff41; font-size:24px; font-weight:bold; }
+
+footer {
+  background:#111;
+  padding:60px 5% 30px;
+  border-top:2px solid #00ff41;
+}
+
+.footer-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+  gap:40px;
+  max-width:1400px;
+  margin:0 auto 50px;
+}
+
+footer h3 { color:#00ff41; margin-bottom:20px; }
+footer a { color:#aaa; text-decoration:none; }
+footer a:hover { color:#00ff41; }
+
+.copyright {
+  text-align:center;
+  padding-top:30px;
+  border-top:1px solid #333;
+  color:#666;
+}

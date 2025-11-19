@@ -1,0 +1,73 @@
+[00:00:00.795] Server  LOG      ✓ Ready in 614ms
+[00:00:13.983] Server  ERROR    ⨯ ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:00:14.253] Server  ERROR    ⨯ ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:00:14.582] Browser ERROR   uncaughtError: Error: ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:00:14.772] Browser ERROR   ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:14.772] Browser ERROR   ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:15.068] Browser ERROR   ./src/app/page.tsx:1:1
+Export supabase doesn't exist in target module
+> 1 | import { supabase } from '@/lib/supabase';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Header from '@/components/Header';
+  3 | import Footer from '@/components/Footer';
+  4 | import CarCard from '@/components/CarCard';
+
+The export supabase was not found in module [project]/src/lib/supabase.ts [app-rsc] (ecmascript).
+Did you mean to import createServerSupabaseClient?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.

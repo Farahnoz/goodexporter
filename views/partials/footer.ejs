@@ -1,0 +1,34 @@
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h3>Good Exporter</h3>
+        <p>Professional Korean used car exporter since 2025.<br>Best prices • Fast shipping • 100% trust</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <p><a href="/inventory">Inventory</a><br>
+           <a href="/how-to-buy">How to Buy</a><br>
+           <a href="/about">About Us</a><br>
+           <a href="/contact">Contact</a></p>
+      </div>
+      <div>
+        <h3>Contact Info</h3>
+        <p>Email: info@goodexporter.com<br>
+           WhatsApp: +82 10-1234-5678<br>
+           Korea Office: Seoul, South Korea</p>
+      </div>
+    </div>
+
+    <!-- Hidden admin link — only shows when ?pass=good123 is in URL -->
+    <div style="text-align:center; margin:20px 0; font-size:14px;">
+      <% if (isAdmin) { %>
+        <a href="/admin?pass=good123" style="color:#00ff41; text-decoration:underline;">Admin Panel</a>
+      <% } %>
+    </div>
+
+    <div class="copyright">
+      © 2025 Good Exporter. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# 1. Fix header.ejs (clean plain text)
+cat > views/partials/header.ejs << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Good Exporter - Korean Used Car Export</title>
+  <link rel="stylesheet" href="/css/style.css">
+<script src="/js/menu.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <a href="/"><img src="/images/logo.jpg" alt="Good Exporter"></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/inventory">Inventory</a></li>
+          <li><a href="/how-to-buy">How to Buy</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+EOF

@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1556742111-a22f6be69976?w=1600') center/cover;">
+  <div class="hero-content"><h1>CONTACT US</h1></div>
+</section>
+
+<section class="section">
+  <div style="max-width:1000px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px;">
+    <div>
+      <h2 style="color:#00ff41; margin-bottom:30px;">Get in Touch</h2>
+      <form action="/contact" method="POST">
+        <input type="text" name="name" placeholder="Sadullo" required style="width:100%; padding:15px; margin:10px 0; background:#111; border:2px solid #00ff41; color:#fff; border-radius:5px;">
+        <input type="email" name="email" placeholder="Email" required style="width:100%; padding:15px; margin:10px 0; background:#111; border:2px solid #00ff41; color:#fff; border-radius:5px;">
+        <input type="text" name="phone" placeholder="+821066900797" required style="width:100%; padding:15px; margin:10px 0; background:#111; border:2px solid #00ff41; color:#fff; border-radius:5px;">
+        <textarea name="message" rows="6" placeholder="Your Message" required style="width:100%; padding:15px; margin:10px 0; background:#111; border:2px solid #00ff41; color:#fff; border-radius:5px;"></textarea>
+        <button type="submit" class="btn" style="width:100%; padding:18px;">SEND MESSAGE</button>
+      </form>
+    </div>
+    <div>
+      <h2 style="color:#00ff41;">Contact Info</h2>
+      <p style="font-size:18px; line-height:2;">
+        WhatsApp: +82 10-6690-0797<br>
+        Email: info@goodexporter.com<br>
+        Office: Seoul, South Korea<br><br>
+        Working Hours:<br>
+        Mon–Sat: 24h (KST)<br>
+        Sunday: 11:00-22:00
+      </p>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
