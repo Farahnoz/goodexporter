@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: goodexporter
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server/server.js
+    envVars:
+      NODE_VERSION: 20
+  - type: pgsql
+    name: goodexporter-db
+    plan: free
+    ipAllowList: []
