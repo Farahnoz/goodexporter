@@ -131,3 +131,20 @@ footer a:hover { color:#00ff41; }
   border-top:1px solid #333;
   color:#666;
 }
+@media (max-width: 900px) {
+  .header-inner { position: relative; }
+  nav ul { 
+    display: none; 
+    flex-direction: column; 
+    background: #000; 
+    position: absolute; 
+    top: 100%; 
+    right: 0; 
+    width: 100%; 
+    border-top: 2px solid #00ff41;
+  }
+  nav ul.show { display: flex; }
+  nav li { padding: 15px; text-align: center; border-bottom: 1px solid #333; }
+  .hamburger { display: block !important; position: absolute; right: 20px; top: 20px; }
+}
+.hamburger { display: none; font-size: 30px; color: #00ff41; cursor: pointer; }
